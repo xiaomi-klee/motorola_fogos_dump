@@ -1,0 +1,10 @@
+# Enable GlanceMotorola (1.0) feature for Latam
+# amxbr, tefbr, timbr are OTA channels and ro.carrier for these channels remains retbr
+on property:ro.carrier="retbr"
+     setprop ro.mot.enable_glance_highlights true
+
+# Enable GlanceSpacesMotorola (2.0) feature for India
+on property:ro.carrier="retin"
+     setprop ro.mot.enable_glance_spaces true
+on property:ro.carrier="retjio"
+     setprop ro.mot.enable_glance_spaces true
