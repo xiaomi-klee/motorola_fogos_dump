@@ -1,0 +1,14 @@
+# user 15 V1UGS35H.75-14-9-3-1-1 d8301 release-keys
+- manufacturer: motorola
+- platform: holi
+- codename: fogos
+- flavor: user
+- release: 15
+- id: V1UGS35H.75-14-9-3-1-1
+- incremental: d8301
+- tags: release-keys
+- fingerprint: motorola/fogos_g/fogos:11/V1UGS35H.75-14-9-3-1-1/d8301:user/release-keys
+- is_ab: true
+- brand: motorola
+- branch: user-15-V1UGS35H.75-14-9-3-1-1-d8301-release-keys
+- repo: motorola_fogos_dump
