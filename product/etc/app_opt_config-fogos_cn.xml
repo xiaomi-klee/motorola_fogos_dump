@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    App optimizations device config
+-->
+<app-optimization version="1">
+
+    <devconfig>
+        <thermal-sensor>back_temp</thermal-sensor>
+        <!-- cpu profiles from low to high
+            SCHEDULER_BOOST = 0x40C00000,
+            MAX_FREQ_CLUSTER_BIG_CORE_0 = 0x40804000,
+            MAX_FREQ_CLUSTER_LITTLE_CORE_0 = 0x40804100,
+            MAX_FREQ_CLUSTER_PRIME_CORE_0 = 0x40804200,
+            MIN_FREQ_CLUSTER_BIG_CORE_0 = 0x40800000,
+            MIN_FREQ_CLUSTER_LITTLE_CORE_0 = 0x40800100,
+            MIN_FREQ_CLUSTER_PRIME_CORE_0 = 0x40800200
+        -->
+        <!-- boost profile -->
+        <profile name="boost1">0x40C00000, 0x1</profile>
+        <profile name="boost2">0x40C00000, 0x1, 0x40800000, 4095, 0x40800100, 4095, 0x40800200, 4095, 0x42804000, 0, 0x43010000, 80</profile>
+        <!-- hint profile -->
+        <profile name="hint100">0x42C28000, 0xFF, 0x40C00000, 0x2, 0x40804000, 0xFFF, 0x40804100, 0xFFF, 0x40800000, 0xFFF, 0x40800100, 0xFFF, 0x43010000, 0xFFFF, 0x40400000, 0x1, 0x42C10000, 0x1</profile>
+        <profile name="boostperf">0x40804100, 1804, 0x40804000, 2208</profile>
+        <profile name="boostnormal">0x40804100, 1804, 0x40804000, 2208</profile>
+        <profile name="boostpower">0x40804100, 1651, 0x40804000, 1651</profile>
+    </devconfig>
+
+    <!-- classified apps -->
+    <optimization name="base_app" mode="normal">
+        <supported-modes>video_mode, video_fullscreen_mode, camera_mode</supported-modes>
+        <boost profile="boostnormal"/>
+        <limit temp="42" tempClr="40" rr="90"/>
+        <limit temp="44" tempClr="42" rr="60"/>
+    </optimization>
+
+    <optimization name="base_app" mode="perf">
+        <boost profile="boostperf"/>
+        <supported-modes>video_mode, video_fullscreen_mode, camera_mode</supported-modes>
+    </optimization>
+
+    <optimization name="base_app" mode="powersave">
+        <boost profile="boostpower"/>
+        <supported-modes>video_mode, video_fullscreen_mode, camera_mode</supported-modes>
+    </optimization>
+
+    <optimization name="rr_opt_app" parent="base_app">
+        <default-rr>auto_max</default-rr>
+    </optimization>
+
+    <optimization name="rr_limit_app" parent="rr_opt_app" mode="normal">
+        <limit rr="90"/>
+        <limit temp="44" tempClr="42" rr="60"/>
+    </optimization>
+    <optimization name="rr_limit_app" parent="rr_opt_app" mode="perf">
+    </optimization>
+    <optimization name="rr_limit_app" parent="rr_opt_app" mode="powersave">
+    </optimization>
+
+    <optimization name="navigation_app" parent="rr_opt_app" mode="normal">
+        <idle-fps>30</idle-fps>
+        <limit temp="41" tempClr="39" rr="90"/>
+        <limit temp="44" tempClr="42" rr="60"/>
+    </optimization>
+    <optimization name="navigation_app" parent="rr_opt_app" mode="perf">
+    </optimization>
+    <optimization name="navigation_app" parent="rr_opt_app" mode="powersave">
+        <idle-fps>30</idle-fps>
+    </optimization>
+
+    <optimization name="reading_app" parent="navigation_app">
+    </optimization>
+
+    <optimization name="rr_deep_opt_app" parent="rr_limit_app" mode="normal">
+        <min-fps>30</min-fps>
+    </optimization>
+    <optimization name="rr_deep_opt_app" parent="rr_limit_app" mode="perf">
+    </optimization>
+    <optimization name="rr_deep_opt_app" parent="rr_limit_app" mode="powersave">
+        <min-fps>30</min-fps>
+    </optimization>
+
+    <optimization name="low_latency_app" parent="base_app" mode="normal">
+    </optimization>
+    <optimization name="low_latency_app" parent="base_app" mode="perf">
+    </optimization>
+    <optimization name="low_latency_app" parent="base_app" mode="powersave">
+    </optimization>
+
+    <optimization name="min_profile_app" parent="base_app" mode="normal">
+        <limit temp="41" tempClr="39" rr="90"/>
+        <limit temp="44" tempClr="42" rr="60"/>
+    </optimization>
+    <optimization name="min_profile_app" parent="base_app" mode="perf">
+    </optimization>
+    <optimization name="min_profile_app" parent="base_app" mode="powersave">
+    </optimization>
+
+    <optimization name="mover" parent="rr_limit_app">
+    </optimization>
+
+    <optimization name="normal_app" parent="base_app">
+    </optimization>
+
+    <optimization name="heavy_load_app">
+        <boost rr="144" profile="boost2"/>
+        <maxe-profile>heavy_load</maxe-profile>
+        <thermal>perf</thermal>
+    </optimization>
+
+    <optimization name="heavy_load_lite_app">
+        <boost profile="boost1"/>
+        <thermal>perf</thermal>
+    </optimization>
+
+    <optimization name="heavy_load_app_3">
+        <boost profile="boost1"/>
+        <thermal>perf</thermal>
+    </optimization>
+
+    <optimization name="heavy_load_app_4" parent="heavy_load_app" mode="normal">
+    </optimization>
+    <optimization name="heavy_load_app_4" parent="heavy_load_app" mode="perf">
+    </optimization>
+    <optimization name="heavy_load_app_4" parent="heavy_load_app" mode="powersave">
+    </optimization>
+
+    <!-- recognized in-app modes, will merge with app opt at runtime -->
+    <optimization name="video_mode">
+        <default-rr>auto</default-rr>
+        <limit temp="41" tempClr="39" rr="90"/>
+        <limit temp="44" tempClr="42" rr="60"/>
+    </optimization>
+
+    <optimization name="video_fullscreen_mode" mode="normal">
+        <default-rr>video</default-rr>
+        <limit temp="41" tempClr="39" rr="90"/>
+        <limit temp="44" tempClr="42" rr="60"/>
+    </optimization>
+    <optimization name="video_fullscreen_mode" mode="perf">
+    </optimization>
+    <optimization name="video_fullscreen_mode" mode="powersave">
+        <default-rr>video</default-rr>
+    </optimization>
+
+    <optimization name="camera_mode">
+        <thermal>camera</thermal>
+        <default-rr remove-tag="true"/>
+    </optimization>
+
+    <!-- global modes -->
+    <optimization name="battery_low_mode">
+        <limit rr="90" />
+    </optimization>
+
+    <!-- optimizations -->
+    <optimization name="com.netease.newsreader.activity" refs="rr_opt_app" />
+    <optimization name="com.sohu.newsclient" refs="rr_opt_app" />
+    <optimization name="com.reddit.frontpage" refs="reading_app" />
+    <optimization name="us.zoom.videomeetings" refs="low_latency_app" />
+
+    <optimization name="com.google.android.youtube" refs="rr_deep_opt_app" />
+    <optimization name="com.instagram.android" refs="rr_deep_opt_app" />
+    <optimization name="com.microsoft.office.outlook" refs="min_profile_app" />
+    <optimization name="com.ebay.mobile" refs="rr_limit_app" />
+    <optimization name="com.amazon.mShop.android.shopping" refs="rr_limit_app" />
+
+    <optimization name="com.motorola.cn.devicemigration" refs="mover" />
+
+    <optimization name="com.taobao.taobao" parent="low_latency_app"/>
+
+    <!-- IKSWU-31568 apps limit request-->
+    <optimization name="com.cat.readall" parent="rr_limit_app"/>
+    <optimization name="com.ss.android.article.news" parent="rr_limit_app"/>
+    <optimization name="com.ss.android.article.lite" parent="rr_limit_app"/>
+    <optimization name="com.ss.android.ugc.aweme" parent="rr_limit_app"/>
+    <optimization name="com.ss.android.ugc.aweme.lite" parent="rr_limit_app"/>
+    <optimization name="com.smile.gifmaker" parent="rr_limit_app"/>
+    <optimization name="com.kuaishou.nebula" parent="rr_limit_app"/>
+    <optimization name="com.dragon.read" parent="rr_limit_app"/>
+    <optimization name="com.ss.android.auto" parent="rr_limit_app"/>
+
+</app-optimization>

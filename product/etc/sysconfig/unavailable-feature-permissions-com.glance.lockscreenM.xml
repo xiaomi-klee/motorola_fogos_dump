@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config>
+    <unavailable-feature name="com.glance.lockscreenM" prop="ro.mot.enable_glance_highlights" />
+    <unavailable-feature name="com.glance.lockscreenM.glance_spaces" prop="ro.mot.enable_glance_spaces" />
+</config>

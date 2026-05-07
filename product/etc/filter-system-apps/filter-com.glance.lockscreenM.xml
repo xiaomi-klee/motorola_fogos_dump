@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<filter-system-apps>
+    <module name="GlanceMotorola" action="enable" prop="ro.mot.enable_glance_highlights" value="true"/>
+</filter-system-apps>

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<filter-system-apps>
+    <module name="GlanceSpacesMotorola" action="enable" prop="ro.mot.enable_glance_spaces" value="true"/>
+</filter-system-apps>
